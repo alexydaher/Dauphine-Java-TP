@@ -1,0 +1,10 @@
+Exercice 1:
+9- On doit renvoyé une InvalidArgumentException
+
+Exercice 2:
+4- On doit appliquer la methode .toString() sur chaque element et compter 
+le nombre de lettre qu'il a.
+
+Exercice 3:
+To fix this problem we should override equals() and hashCode() in the Point class.
+We will get true true.
