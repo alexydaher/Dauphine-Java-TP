@@ -1,0 +1,54 @@
+﻿TP1 : OOP essentials
+
+Exercice 1:
+
+2- sysout : system.out.println();
+
+3- tostr : generates toString() method
+
+4- main: generates main() method
+
+5-  - generates constructor for the class
+- generates setFoo() method
+
+6- Refactors the name of the class or the field
+
+
+Exercice 2:
+
+1- All int variables are set to 0 by default
+
+2- We can’t access the x and y fields because of ‘private’ , we can fix it by adding getter methods for each field.
+
+3- To protect our fields.
+
+4- An accessor is the getter method we can call to get the value of a private field. Yes we have to do it here to access the fields from the other class
+
+6- We need to use ‘this.x = x’ and ‘this.y = y’.
+
+7-  We should add a static field (numberOfPoints) initialised at 0 and incremented everytime we create a new point
+
+8- The compiler knows which constructor to use based on the parameter passed while calling the constructor method.
+
+Exercice 3:
+
+1- true
+   false
+because ‘==’ compares the adress of each value and can return false even if the values are the same.
+
+3- indexOf uses ‘==’ to find the right index of the parameter and that’s why it didn’t find the point p3.
+
+Exercice 4:
+
+2- We will have an index out of bounds error.
+
+5- We have an error 'Cannot invoke "Object.equals(Object)" because "e" is null'
+
+Exercice 5:
+5- When changing the center of the 'c2' it changes also the center of 'c'
+
+6- If we return the center then we will have the same problem as the previous question
+
+Exercice 6:
+
+4- It prints the toString method of the circle class
