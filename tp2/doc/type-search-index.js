@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"exo3","l":"Add"},{"l":"All Classes","u":"allclasses-index.html"},{"p":"exo3","l":"Expr"},{"p":"exo3","l":"Main"},{"p":"exo3","l":"Multiplication"},{"p":"exo3","l":"Sqrt"},{"p":"exo3","l":"Value"}];updateSearchResults();
