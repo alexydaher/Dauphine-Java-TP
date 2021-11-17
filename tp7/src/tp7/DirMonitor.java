@@ -1,7 +1,7 @@
 package tp7;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
@@ -10,7 +10,7 @@ public class DirMonitor {
 	private Path path;
 	
 	public DirMonitor(Path path) throws IOException {
-		if (!new File(path.toString()).isDirectory()) {
+		if (!path.toFile().isDirectory()) {
 			throw new IOException("");
 		}
 		this.path = path;
@@ -23,13 +23,67 @@ public class DirMonitor {
 		}
 	}
 	
+	// classe intern
+	public class PrefixFilter implements DirectoryStream.Filter<Path> {
+		private long n;
+		
+		public PrefixFilter(long n) {
+			this.n = n;
+		}
+		
+		@Override
+		public boolean accept(Path entry) throws IOException {
+			if (entry.toFile().length() < this.n) {
+				return false;
+			}
+			return true;
+		}
+
+	}
+	
+	public void ls(long n) throws IOException {
+		Iterator<Path> it = Files.newDirectoryStream(this.path).iterator();
+		// PrefixFilter filter = new PrefixFilter(n);
+		PrefixFilter filter = new PrefixFilter(n) {
+			@Override
+			public boolean accept(Path entry) throws IOException {
+				if (entry.toFile().length() < n) {
+					return false;
+				}
+				return true;
+			}
+		};
+		
+		while (it.hasNext()) {
+			Path file = it.next();
+			if (filter.accept(file)) {
+				System.out.println(file.toString());
+			}
+		}
+	}
+	
+	public void ls2(long n) throws IOException {
+		Iterator<Path> it = Files.newDirectoryStream(this.path).iterator();
+ 		while (it.hasNext()) {
+ 			DirMonitor dir = new DirMonitor(it.next());
+			this.applyAction(path, n, new MyAction() {
+				@Override
+				public void perform(Path p) throws IOException {
+					if (p.toFile().length() >= n) {
+						System.out.println(p.toString());
+					}
+				}
+			});
+		}
+	}
+	
 	public long sizeOfFiles() throws IOException {
 		long size = 0;
 		Iterator<Path> it = Files.newDirectoryStream(this.path).iterator();
 		while (it.hasNext()) {
-			File file = new File(it.next().toString());
-			if (file.isFile()) {
-				size += file.length();
+			Path file = it.next();
+			if (file.toFile().isFile()) {
+				size += file.toFile().length();
 			}
 		}
 		return size;
@@ -46,6 +100,60 @@ public class DirMonitor {
 			}
 		}
 		return mostRecent;
+	}
+	
+	public class SizeAction implements MyAction {
+		private long size;
+		private long n;
+		public SizeAction(long size, long n) {
+			this.size = size;
+			this.n = n;
+		}
+		@Override
+		public void perform(Path p) throws IOException {
+			if (p.toFile().length() >= n && p.toFile().isFile()) {
+				this.size += p.toFile().length();
+			}
+		}
+		
+	}
+	
+	public long sizeOfFiles2(long n) throws IOException {
+		Iterator<Path> it = Files.newDirectoryStream(this.path).iterator();
+		SizeAction sizeAction = new SizeAction(0, n);
+		while (it.hasNext()) {
+ 			this.applyAction(it.next(), n, sizeAction);
+		}
+		return sizeAction.size;
+	}
+	
+	public class MostRecentAction implements MyAction {
+		private Path mostRecent;
+		private long n;
+		public MostRecentAction(long n) {
+			this.mostRecent = null;
+			this.n = n;
+		}
+		@Override
+		public void perform(Path p) throws IOException {
+			if (p.toFile().length() >= n && (mostRecent == null || mostRecent.toFile().lastModified() < p.toFile().lastModified())) {
+				mostRecent = p;
+			}
+		}
+		
+	}
+	
+	public Path mostRecent2(long n) throws IOException {
+		Iterator<Path> it = Files.newDirectoryStream(this.path).iterator();
+		MostRecentAction mra = new MostRecentAction(n);
+		while (it.hasNext()) {
+			this.applyAction(it.next(), n, mra);
+		}
+		return mra.mostRecent;
+	}
+	
+	public void applyAction(Path p, long n, MyAction action) throws IOException {
+		action.perform(this.path);
 	}
 	
 }
