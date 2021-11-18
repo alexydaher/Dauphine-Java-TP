@@ -139,7 +139,6 @@ public class DirMonitor {
 				mostRecent = p;
 			}
 		}
-		
 	}
 	
 	public Path mostRecent2(long n) throws IOException {
