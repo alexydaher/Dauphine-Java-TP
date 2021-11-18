@@ -62,21 +62,6 @@ public class DirMonitor {
 		}
 	}
 	
-	public void ls2(long n) throws IOException {
-		Iterator<Path> it = Files.newDirectoryStream(this.path).iterator();
- 		while (it.hasNext()) {
- 			DirMonitor dir = new DirMonitor(it.next());
-			this.applyAction(path, n, new MyAction() {
-				@Override
-				public void perform(Path p) throws IOException {
-					if (p.toFile().length() >= n) {
-						System.out.println(p.toString());
-					}
-				}
-			});
-		}
-	}
-	
 	public long sizeOfFiles() throws IOException {
 		long size = 0;
 		Iterator<Path> it = Files.newDirectoryStream(this.path).iterator();
@@ -100,6 +85,20 @@ public class DirMonitor {
 			}
 		}
 		return mostRecent;
+	}
+	
+	public void ls2(long n) throws IOException {
+		Iterator<Path> it = Files.newDirectoryStream(this.path).iterator();
+ 		while (it.hasNext()) {
+ 			this.applyAction(path, n, new MyAction() {
+				@Override
+				public void perform(Path p) throws IOException {
+					if (p.toFile().length() >= n) {
+						System.out.println(p.toString());
+					}
+				}
+			});
+		}
 	}
 	
 	public class SizeAction implements MyAction {
@@ -153,7 +152,7 @@ public class DirMonitor {
 	}
 	
 	public void applyAction(Path p, long n, MyAction action) throws IOException {
-		action.perform(this.path);
+		action.perform(p);
 	}
 	
 }
