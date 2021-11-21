@@ -114,7 +114,6 @@ public class DirMonitor {
 				this.size += p.toFile().length();
 			}
 		}
-		
 	}
 	
 	public long sizeOfFiles2(long n) throws IOException {
