@@ -26,11 +26,11 @@ public class Main {
 		List<String> l1 = Arrays.asList("C", "rc");
 		List<StringBuilder> l2 = Arrays.asList(new StringBuilder("a ma"), new StringBuilder("he!"));
 		
-		List<? extends CharSequence> r1 = (List<? extends CharSequence>) Maximum.fusion(l1, l2);
+		List<? extends CharSequence> r1 = (List<? extends CharSequence>) Generics.fusion(l1, l2);
 		System.out.println(r1);
 		
 		List<Integer> l3 = Arrays.asList(1, 2);
-		System.out.println(Maximum.fusion(l1, l3));
+		System.out.println(Generics.fusion(l1, l3));
 	}
 
 }

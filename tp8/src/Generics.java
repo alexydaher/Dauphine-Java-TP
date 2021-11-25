@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Maximum {
+public class Generics {
 	
 	public static int myMax(int... numbers) {
 		if (numbers.length == 0) {
@@ -59,16 +59,18 @@ public class Maximum {
 	}
 
 	public static List<?> fusion(List<?> l1, List<?> l2) {
-		ArrayList fusion = new ArrayList();
-		int min  = Math.min(l1.size(), l2.size());
-		int max  = Math.min(l1.size(), l2.size());
+		List fusion = new ArrayList();
+		int sizeL1 = l1.size();
+		int sizeL2 = l2.size();
+		int min  = Math.min(sizeL1, sizeL2);
+		int max  = Math.min(sizeL1, sizeL2);
 		for (int i = 0; i < min; i++) {
 			fusion.add(l1.get(i));
 			fusion.add(l2.get(i));
 		}
 		
 		for (int i = min + 1; i < max; i++) {
-			if (l1.size() > l2.size()) {
+			if (sizeL1 > sizeL2) {
 				fusion.add(l1.get(i));
 			} else {
 				fusion.add(l2.get(i));
@@ -76,6 +78,13 @@ public class Maximum {
 		}
 		
 		return fusion;
+	}
+	
+	public static <T> void mix(List<T> l1, int a, int b) {
+		T n = l1.get(a);
+		l1.set(b, l1.get(b));
+		l1.set(a, l1.get(b));
+		l1.set(b, n); 
 	}
 	
 }
