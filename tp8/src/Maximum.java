@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Maximum {
@@ -57,4 +58,24 @@ public class Maximum {
 		return length;
 	}
 
+	public static List<?> fusion(List<?> l1, List<?> l2) {
+		ArrayList fusion = new ArrayList();
+		int min  = Math.min(l1.size(), l2.size());
+		int max  = Math.min(l1.size(), l2.size());
+		for (int i = 0; i < min; i++) {
+			fusion.add(l1.get(i));
+			fusion.add(l2.get(i));
+		}
+		
+		for (int i = min + 1; i < max; i++) {
+			if (l1.size() > l2.size()) {
+				fusion.add(l1.get(i));
+			} else {
+				fusion.add(l2.get(i));
+			}
+		}
+		
+		return fusion;
+	}
+	
 }
